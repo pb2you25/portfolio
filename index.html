@@ -1,0 +1,989 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="PB - Freelance gaming video editor. Long form, short form, whatever you need.">
+    <meta property="og:title" content="PB — Video Editor">
+    <meta property="og:description" content="Freelance gaming video editor. Long form, short form, whatever you need.">
+    <meta property="og:image" content="https://pbvfx.netlify.app/img/pfp.jpg">
+    <meta property="og:url" content="https://pbvfx.netlify.app">
+    <meta property="og:type" content="website">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="PB — Video Editor">
+    <meta name="twitter:description" content="Freelance gaming video editor. Long form, short form, whatever you need.">
+    <meta name="twitter:image" content="https://pbvfx.netlify.app/img/pfp.jpg">
+    <link rel="icon" type="image/jpeg" href="img/pfp.jpg">
+    <title>PB — Video Editor</title>
+
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-N1RQT6L8G4"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-N1RQT6L8G4');
+    </script>
+
+    <!-- Microsoft Clarity -->
+    <script type="text/javascript">
+        (function(c,l,a,r,i,t,y){
+            c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+            t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+            y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+        })(window,document,"clarity","script","xhayw4tj0k");
+    </script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --background: #000000;
+            --background-secondary: #030D11;
+            --surface: #07161C;
+            --primary: #218697;
+            --primary-dark: #0D353F;
+            --accent: #41CDD8;
+            --accent-glow: #45E2EA;
+            --text-primary: #F0F9FB;
+            --text-secondary: #8FBFC8;
+            --border: #568E98;
+            --soft-glow: #BEE8EE;
+            --radius: 10px;
+            --radius-sm: 6px;
+            --radius-lg: 14px;
+            --hover-ease: cubic-bezier(0.25, 0.1, 0.0, 1.0);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--background);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* ── NAV ── */
+        nav {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            z-index: 100;
+            padding: 1.2rem 2.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(14px);
+            border-bottom: 1px solid rgba(65, 205, 216, 0.07);
+        }
+
+        .nav-logo {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--accent);
+            text-decoration: none;
+            letter-spacing: -0.02em;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: var(--text-secondary);
+            text-decoration: none;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            transition: color 0.4s var(--hover-ease);
+        }
+
+        .nav-links a:hover { color: var(--accent); }
+
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            cursor: pointer;
+            background: none;
+            border: none;
+            padding: 4px;
+        }
+
+        .hamburger span {
+            display: block;
+            width: 22px;
+            height: 2px;
+            background: var(--text-secondary);
+            transition: all 0.3s;
+        }
+
+        .hamburger.active span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
+        .hamburger.active span:nth-child(2) { opacity: 0; }
+        .hamburger.active span:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); }
+
+        /* ── HERO ── */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 6rem 2rem 4rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-glow {
+            position: absolute;
+            top: 40%; left: 50%;
+            transform: translate(-50%, -50%);
+            width: 1000px; height: 1000px;
+            background: radial-gradient(circle, rgba(65, 205, 216, 0.13) 0%, rgba(65, 205, 216, 0.06) 25%, rgba(65, 205, 216, 0.02) 45%, transparent 65%);
+            pointer-events: none;
+            animation: glowPulse 6s ease-in-out infinite;
+        }
+
+        @keyframes glowPulse {
+            0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+            33% { transform: translate(-48%, -52%) scale(1.06); opacity: 0.85; }
+            66% { transform: translate(-52%, -48%) scale(0.97); opacity: 0.95; }
+        }
+
+        .hero-name {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: clamp(5.5rem, 13vw, 10rem);
+            font-weight: 700;
+            letter-spacing: -0.05em;
+            color: var(--text-primary);
+            line-height: 0.9;
+            margin-bottom: 0.5rem;
+            position: relative; z-index: 1;
+        }
+
+        .hero-handle {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.1rem;
+            color: var(--accent);
+            font-weight: 500;
+            margin-bottom: 1.8rem;
+            letter-spacing: 0.02em;
+            position: relative; z-index: 1;
+        }
+
+        .hero-tagline {
+            font-size: 1.15rem;
+            color: var(--text-secondary);
+            max-width: 440px;
+            margin-bottom: 2.8rem;
+            line-height: 1.7;
+            position: relative; z-index: 1;
+        }
+
+        .btn {
+            display: inline-block;
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            padding: 0.9rem 2.4rem;
+            color: var(--background);
+            background: var(--accent);
+            text-decoration: none;
+            border-radius: var(--radius);
+            transition: all 0.5s var(--hover-ease);
+            position: relative; z-index: 1;
+        }
+
+        .btn:hover {
+            background: var(--accent-glow);
+            box-shadow: 0 4px 25px rgba(65, 205, 216, 0.3);
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: var(--accent);
+            border: 1.5px solid var(--accent);
+        }
+
+        .btn-outline:hover {
+            background: rgba(65, 205, 216, 0.1);
+            box-shadow: 0 4px 25px rgba(65, 205, 216, 0.2);
+        }
+
+        /* ── SECTIONS ── */
+        .content-section {
+            padding: 5rem 2.5rem;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .section-divider {
+            border: none;
+            border-top: 1px solid rgba(65, 205, 216, 0.08);
+            margin: 0;
+        }
+
+        .section-label {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.16em;
+            color: var(--accent);
+            margin-bottom: 0.6rem;
+        }
+
+        .section-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: clamp(1.8rem, 4vw, 2.5rem);
+            font-weight: 700;
+            letter-spacing: -0.03em;
+            color: var(--text-primary);
+            margin-bottom: 0.8rem;
+        }
+
+        .section-desc {
+            font-size: 1.05rem;
+            color: var(--text-secondary);
+            max-width: 480px;
+            margin-bottom: 2.5rem;
+            line-height: 1.7;
+        }
+
+        /* ── ABOUT ── */
+        .about-layout {
+            display: grid;
+            grid-template-columns: auto 1fr auto;
+            gap: 2.5rem;
+            align-items: start;
+        }
+
+        .about-pfp-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.6rem;
+        }
+
+        .about-pfp {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid rgba(65, 205, 216, 0.2);
+        }
+
+        .about-pfp-name {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .about-text {
+            font-size: 1rem;
+            color: var(--text-secondary);
+            line-height: 1.85;
+        }
+
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.8rem;
+        }
+
+        .about-card {
+            padding: 0.9rem 1rem;
+            background: var(--surface);
+            border: 1px solid rgba(65, 205, 216, 0.06);
+            border-radius: var(--radius);
+        }
+
+        .about-card-label {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 0.6rem;
+            text-transform: uppercase;
+            letter-spacing: 0.14em;
+            color: var(--accent);
+            margin-bottom: 0.2rem;
+        }
+
+        .about-card-value {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        /* ── CLIENTS ── */
+        .clients-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.2rem;
+        }
+
+        .client-card {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1.2rem;
+            background: var(--surface);
+            border: 1px solid rgba(65, 205, 216, 0.06);
+            border-radius: var(--radius-lg);
+            transition: all 0.5s var(--hover-ease);
+            text-decoration: none;
+        }
+
+        .client-card:hover {
+            border-color: rgba(65, 205, 216, 0.15);
+            box-shadow: 0 4px 20px rgba(65, 205, 216, 0.06);
+        }
+
+        .client-pfp {
+            width: 52px;
+            height: 52px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 1.5px solid rgba(65, 205, 216, 0.15);
+            flex-shrink: 0;
+        }
+
+        .client-info {
+            display: flex;
+            flex-direction: column;
+            gap: 0.15rem;
+        }
+
+        .client-name {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .client-stat {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 0.75rem;
+            color: var(--accent);
+            font-weight: 500;
+        }
+
+        /* ── VIDEO CARDS ── */
+        .video-grid, .additional-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.2rem;
+        }
+
+        .video-card {
+            position: relative;
+            display: block;
+            text-decoration: none;
+            overflow: hidden;
+            background: var(--surface);
+            border: 1px solid rgba(65, 205, 216, 0.05);
+            border-radius: var(--radius-lg);
+            transition: all 0.5s var(--hover-ease);
+        }
+
+        .video-card:hover {
+            border-color: rgba(65, 205, 216, 0.18);
+            box-shadow: 0 8px 35px rgba(65, 205, 216, 0.1);
+            transform: translateY(-3px);
+        }
+
+        .video-thumb {
+            position: relative;
+            width: 100%;
+            aspect-ratio: 16/9;
+            overflow: hidden;
+            background: var(--background-secondary);
+        }
+
+        .video-thumb img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.6s var(--hover-ease);
+        }
+
+        .video-card:hover .video-thumb img { transform: scale(1.04); }
+
+        .thumb-overlay {
+            position: absolute;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.35);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.5s var(--hover-ease);
+        }
+
+        .video-card:hover .thumb-overlay,
+        .short-card:hover .thumb-overlay { opacity: 1; }
+
+        .play-btn {
+            width: 48px; height: 48px;
+            border: 2px solid var(--accent);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .play-btn svg {
+            width: 18px; height: 18px;
+            fill: var(--accent);
+            margin-left: 2px;
+        }
+
+        .video-info { padding: 1rem 1.1rem; }
+
+        .video-client {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--accent);
+            margin-bottom: 0.25rem;
+        }
+
+        .video-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            line-height: 1.4;
+        }
+
+        /* ── SHORT CARDS ── */
+        .shorts-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1rem;
+        }
+
+        .short-card {
+            position: relative;
+            display: block;
+            text-decoration: none;
+            overflow: hidden;
+            background: var(--surface);
+            border: 1px solid rgba(65, 205, 216, 0.05);
+            border-radius: var(--radius-lg);
+            transition: all 0.5s var(--hover-ease);
+        }
+
+        .short-card:hover {
+            border-color: rgba(65, 205, 216, 0.18);
+            box-shadow: 0 8px 35px rgba(65, 205, 216, 0.1);
+            transform: translateY(-3px);
+        }
+
+        .short-thumb {
+            position: relative;
+            width: 100%;
+            aspect-ratio: 9/16;
+            overflow: hidden;
+            background: var(--background-secondary);
+        }
+
+        .short-thumb img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.6s var(--hover-ease);
+        }
+
+        .short-card:hover .short-thumb img { transform: scale(1.04); }
+
+        /* ── PROCESS ── */
+        .process-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 1rem;
+        }
+
+        .process-step {
+            padding: 1.5rem 1.2rem;
+            background: var(--surface);
+            border: 1px solid rgba(65, 205, 216, 0.06);
+            border-radius: var(--radius-lg);
+        }
+
+        .process-step-number {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 2rem;
+            font-weight: 700;
+            color: rgba(65, 205, 216, 0.15);
+            line-height: 1;
+            margin-bottom: 0.8rem;
+        }
+
+        .process-step-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--accent);
+            margin-bottom: 0.5rem;
+        }
+
+        .process-step-desc {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        /* ── CTA ── */
+        .cta-section {
+            text-align: center;
+            padding: 6rem 2rem;
+        }
+
+        .cta-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: clamp(2rem, 5vw, 3rem);
+            font-weight: 700;
+            letter-spacing: -0.03em;
+            margin-bottom: 1rem;
+        }
+
+        .cta-desc {
+            color: var(--text-secondary);
+            margin-bottom: 2.5rem;
+            font-size: 1.05rem;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .cta-discord {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-top: 1.5rem;
+        }
+
+        .cta-discord span {
+            color: var(--accent);
+            font-weight: 600;
+        }
+
+        /* ── FOOTER ── */
+        footer {
+            padding: 2rem 2.5rem;
+            text-align: center;
+            border-top: 1px solid rgba(65, 205, 216, 0.05);
+        }
+
+        .footer-socials {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-bottom: 0.8rem;
+        }
+
+        .footer-socials a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-family: 'Space Grotesk', sans-serif;
+            letter-spacing: 0.04em;
+            transition: color 0.4s var(--hover-ease);
+        }
+
+        .footer-socials a:hover { color: var(--accent); }
+
+        .footer-copy {
+            font-size: 0.75rem;
+            color: rgba(143, 191, 200, 0.3);
+            font-family: 'Space Grotesk', sans-serif;
+        }
+
+        /* ── MOBILE ── */
+        @media (max-width: 768px) {
+            nav { padding: 1rem 1.2rem; }
+            .hamburger { display: flex; }
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 100%; left: 0; right: 0;
+                flex-direction: column;
+                background: rgba(0, 0, 0, 0.95);
+                backdrop-filter: blur(14px);
+                padding: 1.5rem 1.2rem;
+                gap: 1.2rem;
+                border-bottom: 1px solid rgba(65, 205, 216, 0.07);
+            }
+            .nav-links.open { display: flex; }
+            .content-section { padding: 3.5rem 1.2rem; }
+            .about-layout { grid-template-columns: 1fr; gap: 2rem; }
+            .about-pfp-wrapper { flex-direction: row; gap: 1rem; }
+            .about-grid { grid-template-columns: 1fr 1fr; }
+            .clients-grid { grid-template-columns: 1fr; }
+            .video-grid, .additional-grid { grid-template-columns: 1fr; }
+            .shorts-grid { grid-template-columns: repeat(2, 1fr); gap: 0.8rem; }
+            .process-grid { grid-template-columns: 1fr; }
+            .hero { padding: 5rem 1.2rem 3rem; }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            * { transition: none !important; animation: none !important; }
+            html { scroll-behavior: auto; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <a href="#" class="nav-logo">PB</a>
+        <button class="hamburger" onclick="this.classList.toggle('active'); document.querySelector('.nav-links').classList.toggle('open')" aria-label="Menu">
+            <span></span><span></span><span></span>
+        </button>
+        <ul class="nav-links">
+            <li><a href="#gaming-longform" onclick="document.querySelector('.nav-links').classList.remove('open'); document.querySelector('.hamburger').classList.remove('active')">Gaming</a></li>
+            <li><a href="#irl-longform" onclick="document.querySelector('.nav-links').classList.remove('open'); document.querySelector('.hamburger').classList.remove('active')">IRL</a></li>
+            <li><a href="#shorts" onclick="document.querySelector('.nav-links').classList.remove('open'); document.querySelector('.hamburger').classList.remove('active')">Shorts</a></li>
+            <li><a href="#process" onclick="document.querySelector('.nav-links').classList.remove('open'); document.querySelector('.hamburger').classList.remove('active')">Process</a></li>
+            <li><a href="#contact" onclick="document.querySelector('.nav-links').classList.remove('open'); document.querySelector('.hamburger').classList.remove('active')">Contact</a></li>
+        </ul>
+    </nav>
+
+    <section class="hero">
+        <div class="hero-glow"></div>
+        <h1 class="hero-name">PB</h1>
+        <p class="hero-handle">@pbvfx__</p>
+        <p class="hero-tagline">Freelance gaming video editor. Long form, short form, whatever you need.</p>
+        <a href="#contact" class="btn">Work with me</a>
+    </section>
+
+    <hr class="section-divider">
+    <section class="content-section">
+        <p class="section-label">About</p>
+        <div class="about-layout">
+            <div class="about-pfp-wrapper">
+                <img src="img/pfp.jpg" alt="PB" class="about-pfp">
+                <p class="about-pfp-name">PB</p>
+            </div>
+            <p class="about-text">
+                I'm a video editor focused on gaming content. I work mainly with Valorant creators but also edit Minecraft, Fortnite, and anything gaming-related. I can take a full stream VOD and turn it into a finished video, or work with whatever footage you have. I'm always looking to improve and learn new techniques with every project.
+            </p>
+            <div class="about-grid">
+                <div class="about-card">
+                    <p class="about-card-label">Focus</p>
+                    <p class="about-card-value">Gaming Content</p>
+                </div>
+                <div class="about-card">
+                    <p class="about-card-label">Games</p>
+                    <p class="about-card-value">Valorant, Minecraft, Fortnite</p>
+                </div>
+                <div class="about-card">
+                    <p class="about-card-label">Long Form</p>
+                    <p class="about-card-value">Stream VODs → YouTube</p>
+                </div>
+                <div class="about-card">
+                    <p class="about-card-label">Short Form</p>
+                    <p class="about-card-value">TikToks, Shorts, Reels</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <hr class="section-divider">
+    <section class="content-section" id="clients">
+        <p class="section-label">Clients</p>
+        <h2 class="section-title">Trusted by creators</h2>
+        <div class="clients-grid">
+            <a href="https://www.twitch.tv/benjyfishy" target="_blank" class="client-card">
+                <img src="img/benjyfishy-pfp.jpg" alt="Benjyfishy" class="client-pfp">
+                <div class="client-info">
+                    <p class="client-name">Benjyfishy</p>
+                    <p class="client-stat">4.1M Followers</p>
+                </div>
+            </a>
+            <a href="https://www.twitch.tv/oatley" target="_blank" class="client-card">
+                <img src="img/oatley-pfp.jpg" alt="Oatley" class="client-pfp">
+                <div class="client-info">
+                    <p class="client-name">Oatley</p>
+                    <p class="client-stat">788K Followers</p>
+                </div>
+            </a>
+            <a href="https://www.tiktok.com/@lightedits" target="_blank" class="client-card">
+                <img src="img/lightedits-pfp.jpg" alt="LightEdits" class="client-pfp">
+                <div class="client-info">
+                    <p class="client-name">LightEdits</p>
+                    <p class="client-stat">80K Followers</p>
+                </div>
+            </a>
+            <a href="https://www.twitch.tv/itsvicterv" target="_blank" class="client-card">
+                <img src="img/victerv-pfp.jpg" alt="VicterV" class="client-pfp">
+                <div class="client-info">
+                    <p class="client-name">VicterV</p>
+                    <p class="client-stat">46.3K Followers</p>
+                </div>
+            </a>
+            <a href="https://www.twitch.tv/hailewhy" target="_blank" class="client-card">
+                <img src="img/hailewhy-pfp.jpg" alt="hailewhy" class="client-pfp">
+                <div class="client-info">
+                    <p class="client-name">hailewhy</p>
+                    <p class="client-stat">27.9K Followers</p>
+                </div>
+            </a>
+            <a href="https://www.twitch.tv/tkzinvlr_" target="_blank" class="client-card">
+                <img src="img/tkzin-pfp.jpg" alt="tkzin" class="client-pfp">
+                <div class="client-info">
+                    <p class="client-name">tkzin</p>
+                    <p class="client-stat">23.3K Followers</p>
+                </div>
+            </a>
+            <a href="https://www.twitch.tv/jamelinho213" target="_blank" class="client-card">
+                <img src="img/jamelinho-pfp.jpg" alt="Jamelinho213" class="client-pfp">
+                <div class="client-info">
+                    <p class="client-name">Jamelinho213</p>
+                    <p class="client-stat">5.5K Followers</p>
+                </div>
+            </a>
+        </div>
+    </section>
+
+    <hr class="section-divider">
+    <section class="content-section" id="gaming-longform">
+        <p class="section-label">Gaming — Long Form</p>
+        <h2 class="section-title">Full-length edits</h2>
+        <p class="section-desc">Stream VODs and raw footage turned into finished YouTube videos.</p>
+        <div class="video-grid">
+            <a href="https://www.youtube.com/watch?v=pGjlT-4Pvk8" target="_blank" class="video-card">
+                <div class="video-thumb">
+                    <img src="https://img.youtube.com/vi/pGjlT-4Pvk8/hqdefault.jpg" alt="Every Death = 1 Shot But We're Radiant">
+                    <div class="thumb-overlay"><div class="play-btn"><svg viewBox="0 0 24 24"><polygon points="8,5 20,12 8,19"/></svg></div></div>
+                </div>
+                <div class="video-info">
+                    <p class="video-client">@LightEdits</p>
+                    <p class="video-title">Every Death = 1 Shot… But We're Radiant</p>
+                </div>
+            </a>
+            <a href="https://youtu.be/9NvN8CrVOE4" target="_blank" class="video-card">
+                <div class="video-thumb">
+                    <img src="https://img.youtube.com/vi/9NvN8CrVOE4/hqdefault.jpg" alt="I Hosted A Blindfolded Edate Skirmish Tournament">
+                    <div class="thumb-overlay"><div class="play-btn"><svg viewBox="0 0 24 24"><polygon points="8,5 20,12 8,19"/></svg></div></div>
+                </div>
+                <div class="video-info">
+                    <p class="video-client">@LightEdits</p>
+                    <p class="video-title">I Hosted A Blindfolded Edate Skirmish Tournament…</p>
+                </div>
+            </a>
+        </div>
+    </section>
+
+    <hr class="section-divider">
+    <section class="content-section" id="irl-longform">
+        <p class="section-label">IRL — Long Form</p>
+        <h2 class="section-title">Real-life content</h2>
+        <p class="section-desc">Vlogs, events, and everything outside the game.</p>
+        <div class="video-grid">
+            <a href="https://youtu.be/6Bi5tY3oY0g" target="_blank" class="video-card">
+                <div class="video-thumb">
+                    <img src="https://img.youtube.com/vi/6Bi5tY3oY0g/hqdefault.jpg" alt="I Crashed a Colombian Tailgate">
+                    <div class="thumb-overlay"><div class="play-btn"><svg viewBox="0 0 24 24"><polygon points="8,5 20,12 8,19"/></svg></div></div>
+                </div>
+                <div class="video-info">
+                    <p class="video-client">@Freezy1ne</p>
+                    <p class="video-title">I Crashed a Colombian Tailgate!</p>
+                </div>
+            </a>
+            <a href="https://youtu.be/z2xgt9GZ00w" target="_blank" class="video-card">
+                <div class="video-thumb">
+                    <img src="https://img.youtube.com/vi/z2xgt9GZ00w/hqdefault.jpg" alt="VicterV Learns How To Drive">
+                    <div class="thumb-overlay"><div class="play-btn"><svg viewBox="0 0 24 24"><polygon points="8,5 20,12 8,19"/></svg></div></div>
+                </div>
+                <div class="video-info">
+                    <p class="video-client">@FNVicterV</p>
+                    <p class="video-title">VicterV Learns How To Drive..</p>
+                </div>
+            </a>
+        </div>
+    </section>
+
+    <hr class="section-divider">
+    <section class="content-section" id="shorts">
+        <p class="section-label">Gaming — Short Form</p>
+        <h2 class="section-title">TikToks & Shorts</h2>
+        <p class="section-desc">Quick, punchy edits built for short-form platforms.</p>
+        <div class="shorts-grid">
+            <a href="https://www.tiktok.com/@benjyfishy/video/7657113976437869847" target="_blank" class="short-card">
+                <div class="short-thumb">
+                    <img src="img/benjyfishy-1.jpg" alt="Benjyfishy short">
+                    <div class="thumb-overlay"><div class="play-btn"><svg viewBox="0 0 24 24"><polygon points="8,5 20,12 8,19"/></svg></div></div>
+                </div>
+            </a>
+            <a href="https://www.tiktok.com/@tkzinvlr/video/7654586617528732948" target="_blank" class="short-card">
+                <div class="short-thumb">
+                    <img src="img/tkzin-1.jpg" alt="Short edit">
+                    <div class="thumb-overlay"><div class="play-btn"><svg viewBox="0 0 24 24"><polygon points="8,5 20,12 8,19"/></svg></div></div>
+                </div>
+            </a>
+            <a href="https://www.tiktok.com/@tkzinvlr/video/7651688850842078485" target="_blank" class="short-card">
+                <div class="short-thumb">
+                    <img src="img/tkzin-2.jpg" alt="Short edit">
+                    <div class="thumb-overlay"><div class="play-btn"><svg viewBox="0 0 24 24"><polygon points="8,5 20,12 8,19"/></svg></div></div>
+                </div>
+            </a>
+            <a href="https://www.tiktok.com/@tkzinvlr/video/7650874917109468437" target="_blank" class="short-card">
+                <div class="short-thumb">
+                    <img src="img/tkzin-3.jpg" alt="Short edit">
+                    <div class="thumb-overlay"><div class="play-btn"><svg viewBox="0 0 24 24"><polygon points="8,5 20,12 8,19"/></svg></div></div>
+                </div>
+            </a>
+            <a href="https://www.tiktok.com/@jamelinho213/video/7646429257194917142" target="_blank" class="short-card">
+                <div class="short-thumb">
+                    <img src="img/jamelinho-1.jpg" alt="Short edit">
+                    <div class="thumb-overlay"><div class="play-btn"><svg viewBox="0 0 24 24"><polygon points="8,5 20,12 8,19"/></svg></div></div>
+                </div>
+            </a>
+            <a href="https://www.tiktok.com/@jamelinho213/video/7651279024005811488" target="_blank" class="short-card">
+                <div class="short-thumb">
+                    <img src="img/jamelinho-2.jpg" alt="Short edit">
+                    <div class="thumb-overlay"><div class="play-btn"><svg viewBox="0 0 24 24"><polygon points="8,5 20,12 8,19"/></svg></div></div>
+                </div>
+            </a>
+            <a href="https://www.tiktok.com/@jamelinho213/video/7651685775796423969" target="_blank" class="short-card">
+                <div class="short-thumb">
+                    <img src="img/jamelinho-3.jpg" alt="Short edit">
+                    <div class="thumb-overlay"><div class="play-btn"><svg viewBox="0 0 24 24"><polygon points="8,5 20,12 8,19"/></svg></div></div>
+                </div>
+            </a>
+            <a href="https://www.youtube.com/shorts/LQC13AM1E9c" target="_blank" class="short-card">
+                <div class="short-thumb">
+                    <img src="https://img.youtube.com/vi/LQC13AM1E9c/hqdefault.jpg" alt="Short edit">
+                    <div class="thumb-overlay"><div class="play-btn"><svg viewBox="0 0 24 24"><polygon points="8,5 20,12 8,19"/></svg></div></div>
+                </div>
+            </a>
+            <a href="https://youtube.com/shorts/drgp3cKfG1E" target="_blank" class="short-card">
+                <div class="short-thumb">
+                    <img src="https://img.youtube.com/vi/drgp3cKfG1E/hqdefault.jpg" alt="Short edit">
+                    <div class="thumb-overlay"><div class="play-btn"><svg viewBox="0 0 24 24"><polygon points="8,5 20,12 8,19"/></svg></div></div>
+                </div>
+            </a>
+        </div>
+    </section>
+
+    <hr class="section-divider">
+    <section class="content-section" id="additional">
+        <p class="section-label">Additional Content</p>
+        <h2 class="section-title">Practice & demos</h2>
+        <p class="section-desc">Personal projects and practice edits across different styles and games.</p>
+        <div class="additional-grid">
+            <a href="https://x.com/pbvfx__/status/2036830787476103308" target="_blank" class="video-card">
+                <div class="video-thumb">
+                    <img src="img/val-analysis.jpg" alt="Valorant Analysis Sample">
+                    <div class="thumb-overlay"><div class="play-btn"><svg viewBox="0 0 24 24"><polygon points="8,5 20,12 8,19"/></svg></div></div>
+                </div>
+                <div class="video-info">
+                    <p class="video-client">Practice Edit</p>
+                    <p class="video-title">Valorant Analysis Sample</p>
+                </div>
+            </a>
+            <a href="https://x.com/pbvfx__/status/2062538613473300715" target="_blank" class="video-card">
+                <div class="video-thumb">
+                    <img src="img/fn-intro.jpg" alt="Fortnite Speedrun Intro">
+                    <div class="thumb-overlay"><div class="play-btn"><svg viewBox="0 0 24 24"><polygon points="8,5 20,12 8,19"/></svg></div></div>
+                </div>
+                <div class="video-info">
+                    <p class="video-client">Practice Edit</p>
+                    <p class="video-title">Fortnite Speedrun Intro</p>
+                </div>
+            </a>
+            <a href="https://x.com/pbvfx__/status/2051328555871621487" target="_blank" class="video-card">
+                <div class="video-thumb">
+                    <img src="img/val-ranked.jpg" alt="Valorant Ranked Gameplay">
+                    <div class="thumb-overlay"><div class="play-btn"><svg viewBox="0 0 24 24"><polygon points="8,5 20,12 8,19"/></svg></div></div>
+                </div>
+                <div class="video-info">
+                    <p class="video-client">Practice Edit</p>
+                    <p class="video-title">Valorant Ranked Gameplay</p>
+                </div>
+            </a>
+            <a href="https://x.com/pbvfx__/status/2044822724762050670" target="_blank" class="video-card">
+                <div class="video-thumb">
+                    <img src="img/mc-intro.jpg" alt="Minecraft Intro">
+                    <div class="thumb-overlay"><div class="play-btn"><svg viewBox="0 0 24 24"><polygon points="8,5 20,12 8,19"/></svg></div></div>
+                </div>
+                <div class="video-info">
+                    <p class="video-client">Practice Edit</p>
+                    <p class="video-title">Minecraft Intro</p>
+                </div>
+            </a>
+        </div>
+    </section>
+
+    <hr class="section-divider">
+    <section class="content-section" id="process">
+        <p class="section-label">How It Works</p>
+        <h2 class="section-title">From idea to upload</h2>
+        <div class="process-grid">
+            <div class="process-step">
+                <p class="process-step-number">01</p>
+                <p class="process-step-title">Brief</p>
+                <p class="process-step-desc">Tell me about your video. What's the concept, what moments matter, what's the vibe you're going for. The more detail upfront, the closer the first edit is to what you want.</p>
+            </div>
+            <div class="process-step">
+                <p class="process-step-number">02</p>
+                <p class="process-step-title">Footage</p>
+                <p class="process-step-desc">Send me your VOD, stream recording, or raw clips. I'll work with whatever you have.</p>
+            </div>
+            <div class="process-step">
+                <p class="process-step-number">03</p>
+                <p class="process-step-title">Edit</p>
+                <p class="process-step-desc">I put the video together based on your brief. Pacing, effects, sound, everything.</p>
+            </div>
+            <div class="process-step">
+                <p class="process-step-number">04</p>
+                <p class="process-step-title">Review</p>
+                <p class="process-step-desc">You get the first version to review. Tell me what you'd tweak, I adjust.</p>
+            </div>
+            <div class="process-step">
+                <p class="process-step-number">05</p>
+                <p class="process-step-title">Delivery</p>
+                <p class="process-step-desc">Final video, ready to upload.</p>
+            </div>
+        </div>
+    </section>
+
+    <hr class="section-divider">
+    <section class="cta-section" id="contact">
+        <h2 class="cta-title">Interested in working together?</h2>
+        <p class="cta-desc">Reach out and let's talk about your project.</p>
+        <div class="cta-buttons">
+            <a href="https://x.com/pbvfx__" target="_blank" class="btn">DM me on X</a>
+            <a href="https://discord.com/users/598600753732648965" target="_blank" class="btn btn-outline">Discord</a>
+        </div>
+        <p class="cta-discord">Discord: <span>alexxzzt.</span></p>
+    </section>
+
+    <footer>
+        <div class="footer-socials">
+            <a href="https://x.com/pbvfx__" target="_blank">Twitter / X</a>
+            <a href="https://discord.com/users/598600753732648965" target="_blank">Discord</a>
+        </div>
+        <p class="footer-copy">PB — Video Editor</p>
+    </footer>
+
+</body>
+</html>
