@@ -79,6 +79,11 @@ nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; padding: 1.2rem 
 .clients-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.2rem; }
 .client-card { display: flex; align-items: center; gap: 1rem; padding: 1.2rem; background: var(--surface); border: 1px solid rgba(65, 205, 216, 0.06); border-radius: var(--radius-lg); transition: all 0.5s var(--hover-ease); text-decoration: none; }
 .client-card:hover { border-color: rgba(65, 205, 216, 0.15); box-shadow: 0 4px 20px rgba(65, 205, 216, 0.06); }
+/* Split cards (clients with shorts): the pfp links to their external
+   profile, the rest of the card links to their filtered shorts -- see
+   shorts.html's ?client= handling. */
+.client-pfp-link { flex-shrink: 0; display: flex; }
+.client-link { flex: 1; min-width: 0; display: flex; align-items: center; text-decoration: none; }
 .client-pfp { width: 52px; height: 52px; border-radius: 50%; object-fit: cover; border: 1.5px solid rgba(65, 205, 216, 0.15); flex-shrink: 0; }
 .client-info { display: flex; flex-direction: column; gap: 0.15rem; }
 .client-name { font-family: 'Space Grotesk', sans-serif; font-size: 0.95rem; font-weight: 700; color: var(--text-primary); }
