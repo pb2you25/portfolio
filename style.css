@@ -104,9 +104,17 @@ nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; padding: 1.2rem 
 .video-client { font-family: 'Space Grotesk', sans-serif; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--accent); margin-bottom: 0.25rem; }
 .video-title { font-family: 'Space Grotesk', sans-serif; font-size: 1rem; font-weight: 600; color: var(--text-primary); line-height: 1.4; }
 
-/* Shorts Carousel */
-.shorts-carousel { display: flex; gap: 1rem; overflow-x: auto; scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch; scrollbar-width: none; padding-bottom: 0.5rem; }
-.shorts-carousel::-webkit-scrollbar { display: none; }
+/* Shorts Carousel -- infinite auto-scrolling marquee. The track renders the
+   card list twice back-to-back (see index.html); animating exactly -50% of
+   the track's own width moves precisely one full copy out of view, so the
+   wrap-around point is seamless regardless of how many cards are in it. */
+.shorts-carousel { overflow: hidden; padding-bottom: 0.5rem; }
+.shorts-carousel-track { display: flex; gap: 1rem; width: max-content; animation: shorts-marquee 110s linear infinite; }
+.shorts-carousel:hover .shorts-carousel-track { animation-play-state: paused; }
+@keyframes shorts-marquee {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+}
 
 .short-card { flex: 0 0 200px; scroll-snap-align: start; position: relative; display: block; text-decoration: none; overflow: hidden; background: var(--surface); border: 1px solid rgba(65, 205, 216, 0.05); border-radius: var(--radius-lg); transition: all 0.5s var(--hover-ease); }
 .short-card:hover { border-color: rgba(65, 205, 216, 0.18); box-shadow: 0 8px 35px rgba(65, 205, 216, 0.1); transform: translateY(-3px); }
